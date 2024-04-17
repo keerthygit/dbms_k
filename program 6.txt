@@ -1,0 +1,212 @@
+SQL*Plus: Release 10.2.0.1.0 - Production on Wed Mar 27 10:27:58 2024
+
+Copyright (c) 1982, 2005, Oracle.  All rights reserved.
+
+SQL> select * from sailors;
+SP2-0640: Not connected
+SQL> connect system
+Enter password:
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+SQL> connect system
+Enter password:
+Connected.
+SQL> select * from sailors;
+
+       SID SNAME          RATING        AGE
+---------- ---------- ---------- ----------
+        22 dustin              7         45
+        29 brutus              1         33
+        31 lubber              8         56
+        32 andy                8         26
+        58 rusty              10         35
+        64 horatio             7         35
+        71 zorba              10         16
+        74 horatio             9         35
+        85 art                 3         26
+        95 bob                 3         64
+
+10 rows selected.
+
+SQL> select * from boats;
+
+       BID BNAME      COLOR
+---------- ---------- -----
+       101 interlake  blue
+       102 interlake  red
+       103 clipper    green
+       104 marine     red
+
+SQL> select * from reservers;
+
+no rows selected
+
+SQL> insert into reservers values(&sid,&bid,to_date('&day','dd/mm/yyyy'));
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: 10/oct/98
+old   1: insert into reservers values(&sid,&bid,to_date('&day','dd/mm/yyyy'))
+new   1: insert into reservers values(23,101,to_date('10/oct/98','dd/mm/yyyy'))
+insert into reservers values(23,101,to_date('10/oct/98','dd/mm/yyyy'))
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C004006) violated - parent key not
+found
+
+
+SQL> desc reservers;
+ Name                                      Null?    Type
+ ----------------------------------------- -------- ----------------------------
+ SID                                                NUMBER(38)
+ BID                                                NUMBER(38)
+ DAY                                                DATE
+
+SQL> insert into reservers values(&sid,&bid,&day);
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: 10/oct/98
+old   1: insert into reservers values(&sid,&bid,&day)
+new   1: insert into reservers values(23,101,10/oct/98)
+insert into reservers values(23,101,10/oct/98)
+                                       *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into reservers values(&sid,&bid,&day);
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: 10oct98
+old   1: insert into reservers values(&sid,&bid,&day)
+new   1: insert into reservers values(23,101,10oct98)
+insert into reservers values(23,101,10oct98)
+                                      *
+ERROR at line 1:
+ORA-00917: missing comma
+
+
+SQL> insert into reservers values(&sid,&bid,&day);
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: 10,oct,98
+old   1: insert into reservers values(&sid,&bid,&day)
+new   1: insert into reservers values(23,101,10,oct,98)
+insert into reservers values(23,101,10,oct,98)
+            *
+ERROR at line 1:
+ORA-00913: too many values
+
+
+SQL> insert into reservers values(&sid,&bid,&day);
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: 10-oct-1998
+old   1: insert into reservers values(&sid,&bid,&day)
+new   1: insert into reservers values(23,101,10-oct-1998)
+insert into reservers values(23,101,10-oct-1998)
+                                       *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into reservers values(&sid,&bid,&day);
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: 10-oct-'1998'
+old   1: insert into reservers values(&sid,&bid,&day)
+new   1: insert into reservers values(23,101,10-oct-'1998')
+insert into reservers values(23,101,10-oct-'1998')
+                                       *
+ERROR at line 1:
+ORA-00984: column not allowed here
+
+
+SQL> insert into reservers values(&sid,&bid,&day);
+Enter value for sid: 23
+Enter value for bid: 101
+Enter value for day: '10-oct-1998'
+old   1: insert into reservers values(&sid,&bid,&day)
+new   1: insert into reservers values(23,101,'10-oct-1998')
+insert into reservers values(23,101,'10-oct-1998')
+*
+ERROR at line 1:
+ORA-02291: integrity constraint (SYSTEM.SYS_C004006) violated - parent key not
+found
+
+
+SQL> select * from boats;
+
+       BID BNAME      COLOR
+---------- ---------- -----
+       101 interlake  blue
+       102 interlake  red
+       103 clipper    green
+       104 marine     red
+
+SQL> insert into reservers(sid,bid,day)values(22,101,DATE '1998-10-10');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(22,102,DATE '1998-10-10');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(22,103,DATE '1998-08-10');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(22,104,DATE '1998-07-10');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(31,102,DATE '1998-10-11');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(31,103,DATE '1998-06-11');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(31,104,DATE '1998-12-11');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(64,101,DATE '1998-05-09');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(64,102,DATE '1998-08-09');
+
+1 row created.
+
+SQL> insert into reservers(sid,bid,day)values(74,103,DATE '1998-08-09');
+
+1 row created.
+
+SQL> select5 * from reservers;
+select5 * from reservers
+*
+ERROR at line 1:
+ORA-24333: zero iteration count
+
+
+SQL> select * from reservers;
+
+       SID        BID DAY
+---------- ---------- ---------
+        22        101 10-OCT-98
+        22        102 10-OCT-98
+        22        103 10-AUG-98
+        22        104 10-JUL-98
+        31        102 11-OCT-98
+        31        103 11-JUN-98
+        31        104 11-DEC-98
+        64        101 09-MAY-98
+        64        102 09-AUG-98
+        74        103 09-AUG-98
+
+10 rows selected.
+
+SQL>

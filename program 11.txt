@@ -1,0 +1,22 @@
+SQL> declare
+  2  fact number;
+  3  num number;
+  4  i number(5);
+  5  begin
+  6  num:=&num;
+  7  fact:=1;
+  8  for i in 1..num
+  9  loop
+ 10  fact:=i*fact;
+ 11  end loop;
+ 12  dbms_output.put_line('factorial of '||num||'is'||fact);
+ 13  end;
+ 14  /
+Enter value for num: 3
+old   6: num:=&num;
+new   6: num:=3;
+factorial of 3is6
+
+PL/SQL procedure successfully completed.
+
+SQL>

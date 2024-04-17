@@ -1,0 +1,21 @@
+SQL> declare
+  2  radius number;
+  3  area number;
+  4  begin
+  5  radius:=&radius;
+  6  if radius<0 then
+  7  dbms_output.put_line('radius cannot be negative');
+  8  else
+  9  area:=3.14159*radius*radius;
+ 10  dbms_output.put_line('Area of the circle with radius'||radius||'is'||area);
+ 11  end if;
+ 12  end;
+ 13  /
+Enter value for radius: 7
+old   5: radius:=&radius;
+new   5: radius:=7;
+Area of the circle with radius7is153.93791
+
+PL/SQL procedure successfully completed.
+
+SQL>
